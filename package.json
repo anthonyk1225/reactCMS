@@ -1,0 +1,56 @@
+{
+  "name": "new_project",
+  "description": "",
+  "version": "0.1.0",
+  "main": "src/main.js",
+  "scripts": {
+    "postinstall": "npm run build",
+    "postbuild": "npm run start",
+    "build": "webpack --progress --config webpack.config.js",
+    "start": "node start.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "author": "Anthony Keating",
+  "license": "NONE",
+  "homepage": "",
+  "devDependencies": {
+    "autoprefixer": "^6.0.2",
+    "babel": "^6.23.0",
+    "babel-loader": "^6.4.1",
+    "babel-plugin-import": "^1.4.0",
+    "babel-plugin-transform-runtime": "^6.5.2",
+    "babel-preset-es2015": "^6.5.0",
+    "babel-preset-react": "^6.5.0",
+    "babel-preset-stage-0": "^6.5.0",
+    "babel-register": "^6.5.2",
+    "extract-text-webpack-plugin": "^0.8.2",
+    "react": "^15.5.4",
+    "react-addons-test-utils": "^15.0.1",
+    "react-hot-loader": "^1.3.0",
+    "sinon": "^1.17.2",
+    "style-loader": "^0.12.3",
+    "webpack": "^1.15.0",
+    "webpack-dev-server": "^1.14.1"
+  },
+  "dependencies": {
+    "antd": "^2.13.0",
+    "babel-core": "^6.5.2",
+    "babel-polyfill": "^6.5.0",
+    "babel-runtime": "^6.5.0",
+    "css-loader": "^0.28.1",
+    "express": "^4.12.3",
+    "flux": "^3.1.2",
+    "key-mirror": "^1.0.1",
+    "moment": "^2.18.1",
+    "node-sass": "^4.5.2",
+    "react-dom": "^15.0.1",
+    "react-router-dom": "^4.1.1",
+    "rsvp": "^3.5.0",
+    "sass-loader": "^6.0.5",
+    "superagent": "^3.5.2",
+    "uuid": "^3.0.1"
+  }
+}
