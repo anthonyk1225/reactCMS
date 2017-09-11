@@ -1,6 +1,7 @@
 import React from 'react';
+import {Menu} from 'antd';
 
-export default class HeaderAdmin extends React.Component {
+export default class PagesAdmin extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -8,9 +9,7 @@ export default class HeaderAdmin extends React.Component {
 	}
 	render(){
 		return(
-			<div>
-			</div>
-		)
+			<div></div>
+		);
 	}
 }
-

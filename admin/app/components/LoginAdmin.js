@@ -15,7 +15,7 @@ class LoginAdmin extends React.Component {
 	        const validUser = values.userName === admin.login.username.toLowerCase();
 	        const validPass = values.password === admin.login.password;
 	        if (validUser && validPass){
-	        	console.log('CORRECT');
+	        	this.logIn()
 	        } else {
 	        	notification['error']({message: 'Incorrect Credentials', description: 'The username and password don\'t match up'});
 	        }
@@ -23,6 +23,9 @@ class LoginAdmin extends React.Component {
 	        notification['error']({message: 'Incorrect Credentials', description: 'The username and password don\'t match up'});
 	      }
 	    });
+	}
+	logIn = () => {
+		this.props.logIn();
 	}
 	render(){
     	const {getFieldDecorator, getFieldsError, getFieldError, isFieldTouched} = this.props.form;
@@ -32,14 +35,14 @@ class LoginAdmin extends React.Component {
 					{getFieldDecorator('userName', {
 						rules: [{ required: true, message: 'Please input your username!' }],
 					})(		        
-						<Input prefix={<Icon type="user" style={{ fontSize: 13 }} />} placeholder="Username" />
+						<Input prefix={<Icon type="user" style={{fontSize: 13}} />} placeholder="Username" />
 					)}
 		        </FormItem>
 		        <FormItem>
 					{getFieldDecorator('password', {
 						rules: [{ required: true, message: 'Please input your Password!' }],
 					})(		        
-						<Input prefix={<Icon type="lock" style={{ fontSize: 13 }} />} type="password" placeholder="Password" />
+						<Input prefix={<Icon type="lock" style={{fontSize: 13}} />} type="password" placeholder="Password" />
 			        )}
 		        </FormItem>
 		        <FormItem>

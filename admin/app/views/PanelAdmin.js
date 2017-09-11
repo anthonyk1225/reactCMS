@@ -1,23 +1,27 @@
 import React from 'react';
-import {LoginAdmin} from '../components';
+import {LoginAdmin, PagesAdmin} from '../components';
+import {LoggedInAdmin} from './'
 
 export default class PanelAdmin extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			loggedIn: false,
+			loggedIn: true,
 		};
+	}
+	logIn = () => {
+		this.setState({loggedIn: true});
 	}
 	render(){
 		return(
 			<div className='admin-panel'>
-				{this.state.loggedIn ? 
-					<HeaderAdmin />
+				{this.state.loggedIn ?
+					<LoggedInAdmin />
 					:
-					<LoginAdmin />
+					<LoginAdmin logIn={this.logIn} />
 				}
 			</div>
-		)
+		);
 	}
 }
 

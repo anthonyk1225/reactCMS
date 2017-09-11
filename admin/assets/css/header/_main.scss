@@ -1,0 +1,59 @@
+.admin-header {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 60px;
+	background-color: black;
+	padding-left: 100px;
+
+	&__search {
+		width: 240px;
+		position: absolute;
+		top: 16px;
+		right: 20px;
+
+		&--button {
+			float: right;
+		}
+
+		&--menu{
+			margin-right: 15px;
+		}
+	}
+
+	&__breadcrumbs {
+		display: flex;
+		align-items: center;
+		justify-content: flex-start;
+		padding: 0 10px;
+		height: 100%;
+		border-left: 1px solid #555;
+
+		p {
+			display: flex;
+			align-items: center;
+			@extend .disable-select;
+			font-family: "Helvetica Neue", Arial, sans-serif;
+			color: white;
+			font-size: 16px;
+			cursor: pointer;
+			text-decoration: none;
+		}
+	}
+
+	&__hamburger {
+		width: 240px;
+		position: absolute;
+		top: 16px;
+		left: 20px;		
+
+		&--button {
+			margin-bottom: 5px;
+		}
+
+		&--menu {
+			margin-left: 15px;
+		}
+	}
+}
