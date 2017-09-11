@@ -11,6 +11,7 @@ ReactDOM.render(
 		<div>
 			<Route exact path="/" component={() => <MainPage/> } />
 			<Route exact path="/admin" component={() => <PanelAdmin/> } />
+			<Route exact path="/admin/login" component={() => <PanelAdmin/> } />
 		</div>
 	</Router>, 
 	document.getElementById('app'));

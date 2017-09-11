@@ -5,21 +5,13 @@
 	width: 100vw;
 	height: 60px;
 	background-color: black;
-	padding-left: 100px;
+	padding: 0 150px 0 100px;
 
 	&__search {
 		width: 240px;
 		position: absolute;
 		top: 16px;
 		right: 20px;
-
-		&--button {
-			float: right;
-		}
-
-		&--menu{
-			margin-right: 15px;
-		}
 	}
 
 	&__breadcrumbs {
@@ -31,14 +23,12 @@
 		border-left: 1px solid #555;
 
 		p {
+			@extend .disable-select;
 			display: flex;
 			align-items: center;
-			@extend .disable-select;
 			font-family: "Helvetica Neue", Arial, sans-serif;
 			color: white;
 			font-size: 16px;
-			cursor: pointer;
-			text-decoration: none;
 		}
 	}
 

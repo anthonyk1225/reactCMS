@@ -1,8 +1,8 @@
 import LoginAdmin from './LoginAdmin';
-import HamburgerAdmin from './HamburgerAdmin';
+import HeaderAdmin from './HeaderAdmin';
 import PagesAdmin from './PagesAdmin';
 
 export {
-	LoginAdmin, HamburgerAdmin, PagesAdmin,
+	LoginAdmin, HeaderAdmin, PagesAdmin,
 }
 

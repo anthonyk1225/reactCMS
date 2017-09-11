@@ -1,5 +1,34 @@
 import React from 'react';
-import {Menu} from 'antd';
+import {Table, Icon} from 'antd';
+
+const columns = [{
+	title: 'Page',
+	dataIndex: 'page',
+	key: 'page',
+	render: text => <a href="#">{text}</a>,
+}, {
+	title: 'Action',
+	key: 'action',
+	render: (text, record) => (
+	    <span>
+	      <a href="#">Edit</a>
+	      <span className="ant-divider" />
+	      <a href="#">Delete</a>
+	      <span className="ant-divider" />
+	    </span>
+  	),
+}];
+
+const data = [{
+	key: '1',
+	page: 'Intro',
+}, {
+	key: '2',
+	page: 'Data backed by science',
+}, {
+	key: '3',
+	page: 'Colors and Nintendo',
+}];
 
 export default class PagesAdmin extends React.Component {
 	constructor(props) {
@@ -9,7 +38,7 @@ export default class PagesAdmin extends React.Component {
 	}
 	render(){
 		return(
-			<div></div>
+			<Table className='admin-pages' dataSource={data} columns={columns} />
 		);
 	}
 }

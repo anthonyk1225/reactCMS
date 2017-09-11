@@ -15,7 +15,7 @@ class LoginAdmin extends React.Component {
 	        const validUser = values.userName === admin.login.username.toLowerCase();
 	        const validPass = values.password === admin.login.password;
 	        if (validUser && validPass){
-	        	this.logIn()
+	        	this.logIn();
 	        } else {
 	        	notification['error']({message: 'Incorrect Credentials', description: 'The username and password don\'t match up'});
 	        }
@@ -33,14 +33,14 @@ class LoginAdmin extends React.Component {
 			<Form onSubmit={this.submit} className="login-form">
 		        <FormItem>
 					{getFieldDecorator('userName', {
-						rules: [{ required: true, message: 'Please input your username!' }],
+						rules: [{required: true, message: 'Please input your username!'}],
 					})(		        
 						<Input prefix={<Icon type="user" style={{fontSize: 13}} />} placeholder="Username" />
 					)}
 		        </FormItem>
 		        <FormItem>
 					{getFieldDecorator('password', {
-						rules: [{ required: true, message: 'Please input your Password!' }],
+						rules: [{required: true, message: 'Please input your Password!' }],
 					})(		        
 						<Input prefix={<Icon type="lock" style={{fontSize: 13}} />} type="password" placeholder="Password" />
 			        )}
@@ -62,7 +62,7 @@ class LoginAdmin extends React.Component {
 					Or <a href="">register now!</a>
 		        </FormItem>		        	        		
 			</Form>
-		)
+		);
 	}
 }
 
