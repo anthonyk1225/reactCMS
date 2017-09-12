@@ -63,7 +63,7 @@ export default class HeaderAdmin extends React.Component {
 						  	<Menu.Item key="4">
 								<Icon type="logout" />
 								<span>Logout</span>
-							</Menu.Item>						
+							</Menu.Item>
 						</Menu>
 					}
 				</div>

@@ -5,16 +5,16 @@ const columns = [{
 	title: 'Page',
 	dataIndex: 'page',
 	key: 'page',
-	render: text => <a href="#">{text}</a>,
+	render: text => <a href="#"><Icon type="code-o" /> {text}</a>,
 }, {
 	title: 'Action',
 	key: 'action',
 	render: (text, record) => (
 	    <span>
 	      <a href="#">Edit</a>
-	      <span className="ant-divider" />
+	      <span className="ant-divider"/>
 	      <a href="#">Delete</a>
-	      <span className="ant-divider" />
+	      <span className="ant-divider"/>
 	    </span>
   	),
 }];

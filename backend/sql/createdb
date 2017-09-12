@@ -1,0 +1,3 @@
+DBNAME=$1
+psql $DBNAME -f ./functions/db.sql
+psql $DBNAME -f ./models/users.sql
