@@ -7,8 +7,6 @@ export default class MainPage extends React.Component {
 		this.state = {
 		};
 	}
-	componentWillMount(){
-	}
 	render(){
 		return(
 			<Main/>

@@ -6,6 +6,9 @@ app.set('view engine', 'html');
 const babelRegister = require('babel-register');
 babelRegister();
 
+const bodyParser = require('body-parser');
+app.use(bodyParser.json());
+
 const users = require(__dirname + '/backend/controllers/users');
 app.use('/user', users);
 
