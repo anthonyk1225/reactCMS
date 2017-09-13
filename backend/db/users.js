@@ -2,16 +2,27 @@ const db = require('./index');
 const format = require('pg-format');
 const bcrypt = require('bcryptjs');
 const salt = bcrypt.genSaltSync(10);
+const uuidv4 = require('uuid/v4');
 
 module.exports = {
-    createUser:(user) => {
-        const hash = bcrypt.hashSync(user.password, salt);
-        const query = format('INSERT into USERS (username, email, password) VALUES (%L, %L, %L)', 
-            user.username, user.email, hash);
-        // console.log(query)
+    getUser:(session) => {
+        const query = format('SELECT * from users where token=%L', session.user)
         return db.any(query)
         .then(result => {
-            return result;
+            return {success: true, 'user': result[0]};
+        })
+        .catch(err => {
+            throw err;
+        })
+    },
+    createUser:(user) => {
+        const token = uuidv4();
+        const hash = bcrypt.hashSync(user.password, salt);
+        const query = format('INSERT into USERS (username, email, password, token) VALUES (%L, %L, %L, %L)', 
+            user.username, user.email, hash, token);
+        return db.any(query)
+        .then(result => {
+            return {success: true, 'user': result[0]};
         })
         .catch(err => {
             throw err;
@@ -21,13 +32,11 @@ module.exports = {
         const query = format('SELECT * from users where username=%L', user.username)
         return db.any(query)
         .then(result => {
-            const hash = bcrypt.hashSync(user.password, salt);
-            const validPass = bcrypt.compareSync(result[0].password, salt);
-            return validPass;
+            const validPass = bcrypt.compareSync(user.password, result[0].password);
+            return {'success': validPass, 'user': result[0]};
         })
         .catch(err => {
             throw err;
         })
     }
 };
-

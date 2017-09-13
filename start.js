@@ -1,5 +1,15 @@
 const express = require('express');
 const app = express();
+
+// Session init
+const session = require('express-session');
+app.use(session({
+    secret: 'keyboard dog',
+    resave: false,
+    saveUninitialized: true,
+}));
+
+// Set view engine
 app.set('view engine', 'html');
 
 // Server-side entrypoint that registers Babel's require() hook
@@ -9,9 +19,12 @@ babelRegister();
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 
+// Backend Routes
 const users = require(__dirname + '/backend/controllers/users');
 app.use('/user', users);
 
+
+// Public Route
 app.get('/app.js', (req, res) => {
     if (process.env.PRODUCTION) {
         res.sendFile(__dirname + '/build/app.js');
@@ -24,6 +37,8 @@ app.get('*', (req, res) => {
     res.sendFile(__dirname + '/build/index.html');
 });
 
+
+// Hot reloading
 if (!process.env.PRODUCTION) {
     const webpack = require('webpack');
     const WebpackDevServer = require('webpack-dev-server');
@@ -43,6 +58,8 @@ if (!process.env.PRODUCTION) {
     });
 }
 
+
+// Server
 const port = process.env.PORT || 8080;
 const server = app.listen(port, () => {
     const host = server.address().address;

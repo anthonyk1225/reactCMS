@@ -2,6 +2,7 @@ CREATE TABLE users(
 	id serial NOT NULL PRIMARY KEY,
 	username text NOT NULL,
 	password varchar NOT NULL,
+	token varchar NOT NULL,
 	email text,
 	created_at timestamp,
 	updated_at timestamp
