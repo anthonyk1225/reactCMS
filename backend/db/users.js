@@ -6,7 +6,7 @@ const uuidv4 = require('uuid/v4');
 
 module.exports = {
     getUser:(session) => {
-        const query = format('SELECT * from users where token=%L', session.user)
+        const query = format('SELECT * from users where token=%L', session.user);
         return db.any(query)
         .then(result => {
             return {success: true, 'user': result[0]};
@@ -29,11 +29,14 @@ module.exports = {
         })        
     },
     login:(user) => {
-        const query = format('SELECT * from users where username=%L', user.username)
+        const query = format('SELECT * from users where username=%L', user.userName);
         return db.any(query)
         .then(result => {
+            if (!result.length){
+                return {'success': false}
+            }
             const validPass = bcrypt.compareSync(user.password, result[0].password);
-            return {'success': validPass, 'user': result[0]};
+            return {'success': validPass, 'user': validPass ? result[0]: false};
         })
         .catch(err => {
             throw err;

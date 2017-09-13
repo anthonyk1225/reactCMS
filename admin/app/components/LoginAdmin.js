@@ -1,5 +1,6 @@
 import React from 'react';
 import {Checkbox, Form, Icon, Input, Button, notification} from 'antd';
+import {MainActions} from '../actions';
 import {admin} from '../../accounts';
 const FormItem = Form.Item;
 
@@ -8,24 +9,20 @@ class LoginAdmin extends React.Component {
 		super(props);
 		this.state = {};
 	}
-	submit = e => {
-	    e.preventDefault();
-	    this.props.form.validateFields((err, values) => {
-	      if (!err) {
-	        const validUser = values.userName === admin.login.username.toLowerCase();
-	        const validPass = values.password === admin.login.password;
-	        if (validUser && validPass){
-	        	this.logIn();
-	        } else {
-	        	notification['error']({message: 'Incorrect Credentials', description: 'The username and password don\'t match up'});
-	        }
-	      } else {
-	        notification['error']({message: 'Incorrect Credentials', description: 'The username and password don\'t match up'});
-	      }
-	    });
+	componentWillReceiveProps(){
+		if (this.props.loginError){
+	    	notification['error']({message: 'Incorrect Credentials', description: 'The username and password don\'t match up'});
+		}
 	}
-	logIn = () => {
-		this.props.logIn();
+	submit = e => {
+		e.preventDefault();
+		this.props.form.validateFields((err, values) => {
+	    	if (!err) {
+	    		MainActions.logIn(values)
+	      	} else {
+	        	notification['error']({message: 'Incorrect Credentials', description: 'The username and password don\'t match up'});
+	      	}
+	    });
 	}
 	render(){
     	const {getFieldDecorator, getFieldsError, getFieldError, isFieldTouched} = this.props.form;

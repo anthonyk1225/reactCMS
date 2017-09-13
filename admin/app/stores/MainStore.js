@@ -9,19 +9,32 @@ class MainStore extends EventEmitter {
 		super();
 		this.state = {
 			loggedInUser: false,
+			loginError: false,
 		}
 	}
 	/////////////////////////////////////
 	// Grabbing and returning functions//
 	/////////////////////////////////////
-	updateUser = logged => {
-		this.state.loggedInUser = logged;
-		this.emit(MainEvents.MAIN_UPDATE, this.state);
-	}
+
 	////////////////////////////////////
 	// Setting store state functions////
 	////////////////////////////////////
-
+	updateUser = data => {
+		this.state.loggedInUser = data.success;
+		this.emit(MainEvents.MAIN_UPDATE, this.state);
+	}
+	loginError = () => {
+		this.state.loginError = true;
+		setTimeout(() => {
+			this.state.loginError = false;
+			this.emit(MainEvents.MAIN_UPDATE, this.state);
+		}, 1000);
+		this.emit(MainEvents.MAIN_UPDATE, this.state);
+	}
+	logout = () => {
+		this.state.loggedInUser = false;
+		this.emit(MainEvents.MAIN_UPDATE, this.state);
+	}
 	/////////////
 	//Listeners//
 	/////////////
@@ -41,7 +54,16 @@ newMainStore.dispatchToken = AppDispatcher.register(payload => {
     switch(action.actionType){
 	   	case MainActions.USER_DATA:
 	   		newMainStore.updateUser(action.data);
-	   		break;    	
+	   		break;
+	   	case MainActions.LOG_IN:
+	   		newMainStore.updateUser(action.data);
+	   		break;
+	   	case MainActions.FAILED_LOG_IN:
+	   		newMainStore.loginError();
+	   		break;   
+	   	case MainActions.LOG_OUT:
+	   		newMainStore.logout();
+	   		break;
         default:
             break;
     }
