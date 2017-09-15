@@ -21,8 +21,9 @@ app.use(bodyParser.json());
 
 // Backend Routes
 const users = require(__dirname + '/backend/controllers/users');
+const pages = require(__dirname + '/backend/controllers/pages');
 app.use('/user', users);
-
+app.use('/page', pages);
 
 // Public Route
 app.get('/app.js', (req, res) => {

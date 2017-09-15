@@ -15,7 +15,7 @@ export default class LoggedInAdmin extends React.Component {
 	render(){
 		return(
 			<div>
-				<PagesAdmin showModal={this.showModal}/>
+				<PagesAdmin pages={this.props.pages} showModal={this.showModal}/>
 				<HeaderAdmin logout={this.logout}/>
 			</div>
 		);

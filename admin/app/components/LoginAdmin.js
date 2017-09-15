@@ -31,7 +31,7 @@ class LoginAdmin extends React.Component {
 		        <FormItem>
 					{getFieldDecorator('userName', {
 						rules: [{required: true, message: 'Please input your username!'}],
-					})(		        
+					})(
 						<Input prefix={<Icon type="user" style={{fontSize: 13}} />} placeholder="Username" />
 					)}
 		        </FormItem>

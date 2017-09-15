@@ -9,7 +9,7 @@ export default {
 		if (!deepLinks.length){
 			return null;
 		} else if (deepLinks.length === 1){
-			if (deepLinks[0] === 'listings'){
+			if (deepLinks[0] === ''){
 				return null;
 			}
 		}

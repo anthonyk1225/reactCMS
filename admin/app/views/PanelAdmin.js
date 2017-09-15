@@ -2,68 +2,112 @@ import React from 'react';
 import {LoginAdmin} from '../components';
 import {LoggedInAdmin} from './';
 import {MainActions} from '../actions';
-import {MainStore} from '../stores';
-import {Modal, LocaleProvider} from 'antd';
+import {MainStore, PageStore} from '../stores';
+import {Form, Modal, LocaleProvider, Input, notification, Icon} from 'antd';
 import enUS from 'antd/lib/locale-provider/en_US';
+const FormItem = Form.Item;
 
-export default class PanelAdmin extends React.Component {
+class PanelAdmin extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			loggedIn: false,
-			userFetched: false,
+			initialBoot: false,
 			visible: false,
 			loginError: false,
+			pages: [],
 		};
 	}
 	componentWillMount(){
 		MainStore.onMainUpdate(this.updateUser);
+		PageStore.onPageUpdate(this.updatePages);
 	}
 	componentDidMount(){
-		if (!this.state.userFetched){
+		if (!this.state.initialBoot){
 			MainActions.getUser();
-			this.state.userFetched = true;
+			MainActions.getPages(0);
+			this.state.initialBoot = true;
 		}
 	}
 	componentWillUnmount(){
 		MainStore.removeOnMainUpdate(this.updateUser);
+		PageStore.removeOnPageUpdate(this.updatePages);
 	}
 	showModal = () => {
 		this.setState({visible: true});
 	}
 	handleOk = e => {
-		this.setState({visible: false});
+		this.props.form.validateFields((err, values) => {
+	    	if (!err) {
+	    		values.parentId = 0;
+				MainActions.createPage(values);
+	      	} else {
+	        	notification['error']({message: 'Missing info', 
+	        		description: `Please include a ${!values.title ? 'title': ''} ${!values.title && !values.url ? 'and': ''} ${!values.url ? 'URL': ''}`});
+	      	}
+	    });		
 	}
 	handleCancel = e => {
 		this.setState({visible: false});
-	}	
+	}
 	updateUser = store => {
 		this.setState({loggedIn: store.loggedInUser, loginError: store.loginError});
 	}
+	updatePages = state => {
+		if (state.pageAdded){
+			notification['success']({message: 'Page added', description: 'Nice work!'});
+			this.setState({visible: false, pages:state.pages});
+		} else {
+			this.setState({pages: state.pages});
+		}
+	}	
 	render(){
-		if (!this.state.userFetched){
+		const {getFieldDecorator, getFieldsError, getFieldError, isFieldTouched} = this.props.form;
+		if (!this.state.initialBoot){
 			return null;
 		}
 		return(
 			<LocaleProvider locale={enUS}>
 				<div className='admin-panel'>
 					{this.state.loggedIn ?
-						<LoggedInAdmin showModal={this.showModal} logout={() => MainActions.logOut()}/>
+						<LoggedInAdmin showModal={this.showModal} pages={this.state.pages} logout={() => MainActions.logOut()}/>
 						:
 						<LoginAdmin loginError={this.state.loginError}/>
 					}
 			        <Modal
-			        	title="Basic Modal"
+			        	className='admin-modal'
+			        	title=""
 			        	visible={this.state.visible}
 			        	onOk={this.handleOk}
 			        	onCancel={this.handleCancel}
 			        >
-			        	<p>Some contents...</p>
-			        	<p>Some contents...</p>
-			        	<p>Some contents...</p>
-			        </Modal>				
+			        	<Form className='admin-create-page-form'>
+			        		<FormItem className='admin-modal__input'>
+								{getFieldDecorator('title', {
+									rules: [{required: true, message: 'Please enter a title!'}],
+								})(
+						        	<div>
+							        	<p className=''>Add a new page</p>
+										<Input prefix={<Icon type="star"></Icon>} placeholder="Title" />
+							        </div>
+								)}
+				        	</FormItem>
+				        	<FormItem className='admin-modal__input'>
+								{getFieldDecorator('url', {
+									rules: [{required: true, message: 'Please enter a url!'}],
+								})(
+						        	<div>
+						        		<p>URL-appendix</p>
+						        		<Input prefix={<Icon type="link"></Icon>} placeholder="" />
+						        	</div>
+								)}
+					        </FormItem>
+				        </Form>
+			        </Modal>
 				</div>
 			</LocaleProvider>
 		);
 	}
 }
+
+export default Form.create()(PanelAdmin);

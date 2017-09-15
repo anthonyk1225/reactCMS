@@ -13,17 +13,20 @@ export default {
     encodeParams(params){
         const outparams = [];
         let queryString = '?';
-        for (let p in params) { outparams.push(p + '=' + params[p]);} 
+        for (let p in params) { 
+            outparams.push(p + '=' + params[p]);
+        } 
         return queryString += outparams.join("&");
     },
     get(url, call_params){
         const params = this.encodeParams(call_params);
-        const promise = new RSVP.Promise( (resolve, reject) => {
+        const promise = new RSVP.Promise((resolve, reject) => {
             let client = false;
-            if (window.XMLHttpRequest)
+            if (window.XMLHttpRequest){
                 client = new XMLHttpRequest();
-            else
+            } else {
                 client = new ActiveXObject("Microsoft.XMLHTTP");
+            }
             if (!client) {
                 console.log('Giving up :( Cannot create an XMLHTTP instance');
                 return false;
@@ -50,26 +53,26 @@ export default {
         return promise;
     },
     post(url, fData){
-        const promise = new RSVP.Promise( (resolve, reject) => {
+        const promise = new RSVP.Promise((resolve, reject) => {
             $.ajax({
-            url: url,
-            data: fData,
-            cache: false,
-            processData: false,
-            contentType: false,
-            type: 'POST',
-                success(data){
-                    resolve(data); 
-                    if (data.message == "error") {
-                        const message = {actionType: "SEND_NOTIFICATION", data: {message: 'ERROR :: ' + url , subtext: '', type: 'ERROR'}};
+                url: url,
+                data: fData,
+                cache: false,
+                processData: false,
+                contentType: 'application/json',
+                type: 'POST',
+                    success(data){
+                        resolve(data); 
+                        if (data.message == "error") {
+                            const message = {actionType: "SEND_NOTIFICATION", data: {message: 'ERROR :: ' + url , subtext: '', type: 'ERROR'}};
+                            AppDispatcher.serverAction(message);
+                        }
+                    },
+                    error(){
+                        reject(this);
+                        const message = {actionType:"SEND_NOTIFICATION", data: {message:'ERROR :: ' + url, subtext: '', type: 'ERROR'}};
                         AppDispatcher.serverAction(message);
-                    }
-                },
-                error(){
-                    reject(this);
-                    const message = {actionType:"SEND_NOTIFICATION", data: {message:'ERROR :: ' + url, subtext: '', type: 'ERROR'}};
-                    AppDispatcher.serverAction(message);
-                },
+                    },
             });
         });
         return promise;
